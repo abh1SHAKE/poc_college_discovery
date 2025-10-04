@@ -10,60 +10,63 @@ import groq
 class CollegeDiscoveryEngine:
     def __init__(self, api_key: str, model: str = None):
         """Initialize Groq client and model"""
+
         self.model = model or os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
         self.client = groq.Client(api_key=api_key)
 
     def create_discovery_prompt(self, location: str, career_path: str) -> str:
         """Create a detailed prompt for college discovery"""
+
         return f"""
-You are an expert educational consultant specializing in Indian higher education.
+        You are an expert educational consultant specializing in Indian higher education.
 
-Task: Find colleges in {location} offering courses related to {career_path}.
+        Task: Find colleges in {location} offering courses related to {career_path}.
 
-Requirements:
-1. Only include colleges physically located in {location}
-2. Focus on courses directly related to {career_path}
-3. Prefer government and well-established private institutions
-4. Include official website URLs (college domain only - .edu.in, .ac.in, .org.in)
-5. Be conservative - only include colleges you're confident exist
-6. Provide accurate, verifiable information
+        Requirements:
+        1. Only include colleges physically located in {location}
+        2. Focus on courses directly related to {career_path}
+        3. Prefer government and well-established private institutions
+        4. Include official website URLs (college domain only - .edu.in, .ac.in, .org.in)
+        5. Be conservative - only include colleges you're confident exist
+        6. Provide accurate, verifiable information
 
-Output Format (JSON):
-{{
-  "colleges": [
-    {{
-      "name": "Exact college name",
-      "city": "City name",
-      "state": "State name", 
-      "type": "Government|Private|Deemed University|Central University|State University",
-      "website": "https://official-college-domain.ac.in",
-      "confidence": 0.85,
-      "courses": [
+        Output Format (JSON):
         {{
-          "course_name": "Full course name (e.g., Bachelor of Technology in Computer Science)",
-          "degree_level": "UG|PG|Diploma|Certificate|PhD",
-          "duration": "4 years",
-          "annual_fees": "₹1,00,000",
-          "seats": 120,
-          "entrance_exams": ["JEE Main", "State CET"],
-          "specializations": ["AI/ML", "Data Science"]
+        "colleges": [
+            {{
+            "name": "Exact college name",
+            "city": "City name",
+            "state": "State name", 
+            "type": "Government|Private|Deemed University|Central University|State University",
+            "website": "https://official-college-domain.ac.in",
+            "confidence": 0.85,
+            "courses": [
+                {{
+                "course_name": "Full course name (e.g., Bachelor of Technology in Computer Science)",
+                "degree_level": "UG|PG|Diploma|Certificate|PhD",
+                "duration": "4 years",
+                "annual_fees": "₹1,00,000",
+                "seats": 120,
+                "entrance_exams": ["JEE Main", "State CET"],
+                "specializations": ["AI/ML", "Data Science"]
+                }}
+            ]
+            }}
+        ]
         }}
-      ]
-    }}
-  ]
-}}
 
-Important Guidelines:
-- Maximum 15 colleges to ensure quality over quantity
-- Use confidence scores between 0.6-0.95 (be realistic)
-- If uncertain about fees/seats, omit rather than guess
-- Focus on well-known, established institutions
-- Ensure course names are specific and accurate
-- Include only verified entrance exams
-"""
+        Important Guidelines:
+        - Maximum 15 colleges to ensure quality over quantity
+        - Use confidence scores between 0.6-0.95 (be realistic)
+        - If uncertain about fees/seats, omit rather than guess
+        - Focus on well-known, established institutions
+        - Ensure course names are specific and accurate
+        - Include only verified entrance exams
+        """
 
     async def discover_colleges(self, location: str, career_path: str) -> List[College]:
         """Discover colleges using Groq LLM"""
+
         prompt = self.create_discovery_prompt(location, career_path)
 
         try:
@@ -97,6 +100,7 @@ Important Guidelines:
 
     def _parse_colleges(self, data: Dict, location: str, career_path: str) -> List[College]:
         """Parse LLM response into College objects"""
+        
         colleges = []
 
         for college_data in data.get("colleges", []):

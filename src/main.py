@@ -13,11 +13,13 @@ from src.models.college import College
 class CollegeDiscoveryApp:
     def __init__(self, api_key: str, model: str = None):
         """Initialize discovery app with Groq API key and model"""
+
         self.discovery_engine = CollegeDiscoveryEngine(api_key, model=model)
         self.validator = EvidenceValidator(delay=1.5)
 
     async def run_discovery(self, location: str, career_path: str) -> Dict:
         """Run complete college discovery pipeline"""
+
         print(f"Starting discovery for {location} - {career_path}")
         
         # Step 1: LLM Discovery
@@ -42,6 +44,7 @@ class CollegeDiscoveryApp:
 
     def _generate_results(self, location: str, career_path: str, colleges: List[College]) -> Dict:
         """Generate structured results"""
+
         verified_count = sum(1 for c in colleges if c.evidence_status.value == "Verified")
         total_courses = sum(len(c.courses) for c in colleges)
         avg_confidence = sum(c.overall_confidence for c in colleges) / len(colleges) if colleges else 0
@@ -63,6 +66,7 @@ class CollegeDiscoveryApp:
 
     def _college_to_dict(self, college: College) -> Dict:
         """Convert college object to dictionary"""
+
         return {
             "name": college.name,
             "city": college.city,
@@ -93,6 +97,7 @@ class CollegeDiscoveryApp:
 
     def save_results(self, results: Dict, output_format: str = "both"):
         """Save results to JSON and/or CSV"""
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         location_clean = results["search_query"]["location"].replace(", ", "_").replace(" ", "_")
         career_clean = results["search_query"]["career_path"].replace(" ", "_")
@@ -112,6 +117,7 @@ class CollegeDiscoveryApp:
 
     def _save_csv(self, results: Dict, filename: str):
         """Save results to CSV format"""
+
         with open(filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             
@@ -148,6 +154,7 @@ class CollegeDiscoveryApp:
 # CLI Interface
 async def main():
     """Main test function"""
+
     load_dotenv()
     
     # Get Groq API key
@@ -195,6 +202,7 @@ async def main():
 
 def interactive_main():
     """Interactive version for custom queries"""
+
     load_dotenv()
     
     api_key = os.getenv("GROQ_API_KEY")
