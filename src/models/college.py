@@ -23,7 +23,8 @@ class DegreeLevel(Enum):
 @dataclass
 class Course:
     name: str
-    degree_level: DegreeLevel
+    # degree_level: DegreeLevel
+    degree_level: str
     official_source_url: str
     row_confidence: float
     duration: Optional[str] = None
