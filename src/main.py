@@ -15,7 +15,7 @@ class CollegeDiscoveryApp:
         """Initialize discovery app with Groq API key and model"""
 
         self.discovery_engine = CollegeDiscoveryEngine(api_key, model=model)
-        self.validator = EvidenceValidator(delay=1.5)
+        # self.validator = EvidenceValidator(delay=1.5)
 
     async def run_discovery(self, location: str, career_path: str) -> Dict:
         """Run complete college discovery pipeline"""
