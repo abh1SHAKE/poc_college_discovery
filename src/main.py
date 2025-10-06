@@ -7,7 +7,7 @@ from typing import List, Dict
 from dotenv import load_dotenv
 
 from src.engines.llm_engine import CollegeDiscoveryEngine
-from src.engines.validation_engine import EvidenceValidator
+# from src.engines.validation_engine import EvidenceValidator
 from src.models.college import College
 
 class CollegeDiscoveryApp:
