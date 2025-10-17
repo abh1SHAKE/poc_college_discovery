@@ -10,6 +10,7 @@ class VerificationStatus(Enum):
 
 class EvidenceStatus(Enum):
     VERIFIED = "Verified"
+    PARTIALLY_VERIFIED = "Partially Verified"
     NO_EVIDENCE_FOUND = "No Evidence Found"
     PENDING_VERIFICATION = "Pending Verification"
 
