@@ -318,7 +318,7 @@ if "colleges" in st.session_state:
                 for course in college.courses:
                     st.markdown(f"- **{course.name}** ({course.degree_level}) - {course.duration}")
                     if course.annual_fees:
-                        st.markdown(f"  💰 Fees: ₹{course.annual_fees:,}/year")
+                        st.markdown(f"  💰 Fees: ₹{course.annual_fees:}/year")
                     if course.entrance_exams and len(course.entrance_exams) > 0:
                         st.markdown(f"  📝 Exams: {', '.join(course.entrance_exams)}")
                     if course.specializations and len(course.specializations) > 0:
